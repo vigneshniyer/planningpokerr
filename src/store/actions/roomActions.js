@@ -42,7 +42,8 @@ export const joinRoom = (room) => {
         const userId = getState().user.id;
         const username = getState().user.name;
         const user = {"id":userId, "name":username}
-        
+        console.log("Joining room.... ", username );
+        console.log("Going to room : ", room.id);
         fireStore.collection('rooms').doc(room.id).update({
             users: fireStore.FieldValue.arrayUnion(user)
         })
@@ -144,6 +145,39 @@ export const castVote = (currentVote) => {
 
     }
 };
+
+export const leaveRoom = (room) => {
+    return (dispatch, getState, { getFirebase, getFirestore } ) => {
+        const fireStore = getFirestore();
+        const userId = getState().user.id;
+        const userName = getState().user.name;
+        // const user = {"id":userId, "name":username}
+        console.log("Room user is :", userId);
+        Promise.all([
+            room.users.length == 1 && room.users[0].id == userId ? 
+            // if last user, delete the entire room
+            fireStore.collection('rooms').doc(room.id).delete() 
+            :
+            // update list of room users by filtering out leaving user
+            fireStore.collection('rooms').doc(room.id).update({
+                users: room.users.filter(user => user.id !== userId)
+            }),
+            
+            fireStore.collection('users').doc(userId).delete()  
+            
+        ])
+        .then(
+            dispatch({ type:'LEAVE_ROOM', room:room })
+        )
+        .catch((err) => {
+            dispatch({ type: 'LEAVE_ROOM_ERROR', err })
+        })
+
+        
+
+    }
+};
+
 
 
 

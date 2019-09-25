@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { createUser } from '../../store/actions/userActions'
+import { createUser } from '../../store/actions/userActions';
+import { joinRoom } from '../../store/actions/roomActions';
 
 class CreateUser extends Component {
 	state = {
@@ -20,9 +21,15 @@ class CreateUser extends Component {
 		// this.props.history.push('/enterRoom');
 	}
 	render() {
-		if (this.props.user && this.props.user.id) {
+		if(this.props.user && this.props.user.id && this.props.location && this.props.location.state && this.props.location.state.redirectRoom){
+			let roomId = this.props.location.state.redirectRoom.split('/')[2];
+			this.props.joinRoom({'id':roomId});
+			return <Redirect to= {this.props.location.state.redirectRoom} />
+		}
+		else if (this.props.user && this.props.user.id) {
 			return <Redirect to= {'/enterRoom'} />
 		}
+		console.log("Props : ", this.props.location)
 		return (
 		<div className="container">
 			<form className="white" onSubmit={this.handleSubmit}>
@@ -41,7 +48,6 @@ class CreateUser extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log("STAE I S : ", state);
 	return { 
 		user: state.user
 	 };
@@ -49,7 +55,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch)=> {
 	return {
-		createUser: (name) => dispatch(createUser(name))
+		createUser: (name) => dispatch(createUser(name)),
+		joinRoom: (room) => dispatch(joinRoom(room))
 	}
 }
 

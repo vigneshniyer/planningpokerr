@@ -4,13 +4,17 @@ import { connect } from 'react-redux'
 import { compose } from 'redux';
 import uuid from "uuid";
 import { firestoreConnect } from 'react-redux-firebase';
-import { updateCurrentStory, toggleRound, castVote } from '../../store/actions/roomActions'
+import { updateCurrentStory, toggleRound, castVote, leaveRoom } from '../../store/actions/roomActions'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import 'react-sharingbuttons/dist/main.css';
+import { Email, Facebook, Twitter } from 'react-sharingbuttons';
 
 
 class Room extends Component {
 
     state = {
         // test:''
+        copied:false
     }
 
     handleChange = (e) => {
@@ -45,16 +49,72 @@ class Room extends Component {
         this.props.castVote(currentVote);
     }
 
+    copyUrl = () => {
+        this.setState({ copied: true });
+        setTimeout(() => {
+            this.setState({ copied: false });
+          },2000);
+    }
+
+    componentDidMount() {
+        window.addEventListener('beforeunload', this.keepOnPage);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.keepOnPage);
+    }
+
+    
+      
+    keepOnPage = (e) => {
+        // var message = 'Warning!\n\nNavigating away from this page will delete your text if you haven\'t already saved it.';
+        // e.returnValue = message;
+        // console.log("Room closing : ", this.props);
+        //this.props.leaveRoom(this.props.roomTest);
+        alert("You have been removed from the room. Join again to continue playing.")
+        this.props.leaveRoom(this.props.roomTest);
+        return undefined;
+    }
+
+
 
 	render() {
         // const id  = this.props.match.params.id;
         const {room, currentStory, activeRound, roundsHistory } = this.props;
-        if (!this.props.user.id) return <Redirect to="/createUser" />
+        if (!this.props.user.id) return <Redirect to={{
+                pathname: '/createUser',
+                state: { 
+                    redirectRoom: this.props.history.location.pathname, 
+                }
+            }} 
+        />
         // if (!room || !room[0].id) return <Redirect to="/enterRoom" />
-
-		return (
+        // let roomUrl = room && room[0].id ? 'http://localhost:3000/room/'+room[0].id:'';
+        let roomUrl = room && room[0].id ? 'https://nv-marioplan.firebaseapp.com/room/'+room[0].id:'';
+        
+        return (
 			<div className="container">
                 <h1>{room ? room[0].name : ""}</h1>
+                <div>
+                    {room && room[0].id ?
+                    <div>
+                
+                        <CopyToClipboard text={roomUrl} onCopy={this.copyUrl}>
+
+                        <button className="btn pink lighten-1 z-depth-0" title={roomUrl}>Copy URL</button>
+                        
+                        </CopyToClipboard>
+                        {this.state.copied ? <span style={{color: 'red'}}> Copied.</span> : null}
+
+                        <button className="btn pink lighten-1 z-depth-0" onClick={()=>{this.props.leaveRoom(this.props.roomTest)}}>leave</button>
+
+                        <Facebook url={roomUrl} />
+                        <Email url={roomUrl} text={'Email'} subject={"Join your team's voting"} />
+                        
+                    </div>
+                    : '' }
+                    
+                </div>
                 <ul>
                     {room && room[0].users.map(user => {
                         let userVoteObj = room[0].currentVotes.find(obj => {
@@ -111,7 +171,9 @@ const mapStateToProps = (state) => {
         currentStory: state.firestore.ordered.rooms ? state.firestore.ordered.rooms[0].currentStory : "",
         activeRound: state.firestore.ordered.rooms ? state.firestore.ordered.rooms[0].activeRound : false,
         roundsHistory: state.firestore.ordered.rooms ? state.firestore.ordered.rooms[0].roundsHistory : [],
-        user: state.user
+        user: state.user,
+        roomTest: state.firestore.ordered.rooms ? state.firestore.ordered.rooms[0] : null
+
 	}
 }
 
@@ -120,7 +182,8 @@ const mapDispatchToProps = (dispatch)=> {
         // createRoom: (name) => dispatch(createRoom(name))
         updateCurrentStory: (story) => dispatch(updateCurrentStory(story)),
         toggleRound: (toggle) => dispatch(toggleRound(toggle)),
-        castVote: (currentVote) => dispatch(castVote(currentVote))
+        castVote: (currentVote) => dispatch(castVote(currentVote)),
+        leaveRoom: (room) => dispatch(leaveRoom(room))
 	}
 }
 

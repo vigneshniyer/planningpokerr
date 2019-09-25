@@ -15,6 +15,11 @@ const roomReducer = (state = initState, action) => {
         case 'JOIN_ROOM_ERROR':
             return state;
 
+        case 'LEAVE_ROOM':
+            return state;
+        case 'LEAVE_ROOM_ERROR':
+            return state;
+
         case 'TOGGLE_ROUND':
             return state;
         case 'TOGGLE_ROUND_ERROR':
