@@ -1,6 +1,5 @@
 const initState = {
-    // 'name': '',
-    // 'id': ''
+    
 }
 
 const roomReducer = (state = initState, action) => {
@@ -13,10 +12,11 @@ const roomReducer = (state = initState, action) => {
         case 'JOIN_ROOM':
             return {'id': action.room.id};
         case 'JOIN_ROOM_ERROR':
-            return state;
+            return { ...state, invalidRoom: true };
 
         case 'LEAVE_ROOM':
-            return state;
+            return { ...state, id: '' };
+
         case 'LEAVE_ROOM_ERROR':
             return state;
 
@@ -29,6 +29,11 @@ const roomReducer = (state = initState, action) => {
             // return {...state, 'currentVote': action.currentVote.vote};
             return state;
         case 'CAST_VOTE_ERROR':
+            return state;
+
+        case 'READ_MESSAGE':
+            return state;
+        case 'READ_MESSAGE_ERROR':
             return state;
          
         default:

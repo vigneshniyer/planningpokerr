@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://localhost:3000/createUser -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="shortcut icon" href="http://localhost:3000/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <link rel="apple-touch-icon" href="http://localhost:3000/logo192.png">
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="http://localhost:3000/manifest.json">
+    <!--
+      Notice the use of  in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+     <!--Import Google Icon Font-->
+     <link href="./d_files/icon" rel="stylesheet">
+     <!--Import materialize.css-->
+     <link rel="stylesheet" href="./d_files/materialize.min.css">
+     <script src="./d_files/materialize.min.js"></script>
+     <title>React App</title>
+  <style>@import url(https://fonts.googleapis.com/css?family=Titillium+Web&display=swap);</style><style>/* @import url('https://fonts.googleapis.com/css?family=PT+Sans&display=swap'); */
+
+html {
+  min-height: 100%;
+}
+
+
+body {
+  /* font-family: 'PT Sans', sans-serif; */
+  font-family: 'Titillium Web', sans-serif;
+  min-height: 100%;
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* background: url(/img/felt.png) repeat; */
+  background-size: 100%;
+  background-position: bottom;
+  /* background-color: #EDE9E5; */
+  background-color: #27A69A;
+  /* background-image: url("https://www.transparenttextures.com/patterns/felt.png"); */
+}
+
+form {
+  padding: 20px;
+  margin-top: 60px;
+}
+
+form button, form h5 {
+  margin: 20px 0;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]){
+  border-color: #ec407a;
+  box-shadow: none;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label,
+input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+input[type=password]:not(.browser-default):focus:not([readonly]) + label{
+  color: #ec407a !important;
+}
+
+.mt-60 {
+  margin-top: 60px;
+}
+
+.mt-0 {
+  margin-top: 0px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mr-10 {
+  margin-right:10px;
+}
+
+.mr-15 {
+  margin-right:15px;
+}
+
+.mr-20 {
+  margin-right:20px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.round-results-card {
+  height: 400px;
+  overflow-y:auto;
+}
+
+.round-history-card {
+    height: 350px;
+	  overflow-y: auto;
+}
+
+.card-border {
+  border: 1px solid black;
+}
+
+table {
+  table-layout: auto;
+}
+
+.sc-user-input--text { 
+  width : 280px !important; 
+}
+
+.sc-user-input--file-icon {
+  display:none;
+}
+
+.cursor-pointer {
+  cursor:pointer;
+}
+
+.vote-selected {
+  border: 3px solid gold
+}
+
+.upload-border {
+  border: dotted 1px black
+}
+
+.user-story-list {
+    height: 250px;
+	  overflow-y: auto;
+}
+
+#currentStory {
+  min-height: 70px;
+}</style><style>.react-sharing-button__link {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  margin: 0.5em;
+  border-radius: 5px;
+  transition: 50ms ease-out;
+  padding: 0.5em 0.75em;
+  line-height: 1.2em;
+}
+
+.react-sharing-button__icon {
+  fill: #fff;
+  stroke-width: 0;
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.2em;
+  vertical-align: bottom;
+}
+
+.react-sharing-button__text {
+  padding-left: 0.4em;
+  line-height: 1.2em;
+}
+
+.react-sharing-button--email {
+  background-color: #777;
+}
+
+.react-sharing-button--email:hover {
+  background-color: #5e5e5e;
+}
+
+.react-sharing-button--facebook {
+  background-color: #3b5998;
+}
+
+.react-sharing-button--facebook:hover {
+  background-color: #2d4373;
+}
+
+.react-sharing-button--google {
+  background-color: #dd4b39;
+}
+
+.react-sharing-button--google:hover {
+  background-color: #c23321;
+}
+
+.react-sharing-button--pinterest {
+  background-color: #bd081c;
+}
+
+.react-sharing-button--pinterest:hover {
+  background-color: #8c0615;
+}
+
+.react-sharing-button--reddit {
+  background-color: #5f99cf;
+}
+
+.react-sharing-button--reddit:hover {
+  background-color: #3a80c1;
+}
+
+.react-sharing-button--tumblr {
+  background-color: #35465C;
+}
+
+.react-sharing-button--tumblr:hover {
+  background-color: #222d3c;
+}
+
+.react-sharing-button--twitter {
+  background-color: #55acee;
+}
+
+.react-sharing-button--twitter:hover {
+  background-color: #2795e9;
+}
+</style><style>.react-spinner-loader-swing div {
+  border-radius: 50%;
+  float: left;
+  height: 1em;
+  width: 1em;
+}
+.react-spinner-loader-swing div:nth-of-type(1) {
+  background: linear-gradient(to right, #385c78 0%, #325774 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(2) {
+  background: linear-gradient(to right, #325774 0%, #47536a 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(3) {
+  background: linear-gradient(to right, #4a5369 0%, #6b4d59 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(4) {
+  background: linear-gradient(to right, #744c55 0%, #954646 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(5) {
+  background: linear-gradient(to right, #9c4543 0%, #bb4034 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(6) {
+  background: linear-gradient(to right, #c33f31 0%, #d83b27 100%);
+}
+.react-spinner-loader-swing div:nth-of-type(7) {
+  background: linear-gradient(to right, #da3b26 0%, #db412c 100%);
+}
+.react-spinner-loader-shadow {
+  clear: left;
+  padding-top: 1.5em;
+}
+.react-spinner-loader-shadow div {
+  filter: blur(1px);
+  float: left;
+  width: 1em;
+  height: .25em;
+  border-radius: 50%;
+  background: #e3dbd2;
+}
+.react-spinner-loader-shadow .react-spinner-loader-shadow-l {
+  background: #d5d8d6;
+}
+.react-spinner-loader-shadow .react-spinner-loader-shadow-r {
+  background: #eed3ca;
+}
+@keyframes ball-l {
+  0%, 50% {
+    transform: rotate(0) translateX(0);
+  }
+  100% {
+    transform: rotate(50deg) translateX(-2.5em);
+  }
+}
+@keyframes ball-r {
+  0% {
+    transform: rotate(-50deg) translateX(2.5em);
+  }
+  50%,
+  100% {
+    transform: rotate(0) translateX(0)
+  }
+}
+@keyframes shadow-l-n {
+  0%, 50% {
+    opacity: .5;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: .125;
+    transform: translateX(-1.75em);
+  }
+}
+@keyframes shadow-r-n {
+  0% {
+    opacity: .125;
+    transform: translateX(1.75em);
+  }
+  50%,
+  100% {
+    opacity: .5;
+    transform: translateX(0);
+  }
+}
+.react-spinner-loader-swing-l {
+  animation: ball-l .425s ease-in-out infinite alternate;
+}
+.react-spinner-loader-swing-r {
+  animation: ball-r .425s ease-in-out infinite alternate;
+}
+.react-spinner-loader-shadow-l {
+  animation: shadow-l-n .425s ease-in-out infinite alternate;
+}
+.react-spinner-loader-shadow-r {
+  animation: shadow-r-n .425s ease-in-out infinite alternate;
+}
+</style><style>
+.react-spinner-loader-svg-calLoader {
+  width: 230px;
+  height: 230px;
+  transform-origin: 115px 115px;
+  animation: 1.4s linear infinite loader-spin;
+}
+
+.react-spinner-loader-svg-cal-loader__path {
+
+  animation: 1.4s ease-in-out infinite loader-path;
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader-path {
+  0% {
+    stroke-dasharray: 0, 580, 0, 0, 0, 0, 0, 0, 0;
+  }
+  50% {
+    stroke-dasharray: 0, 450, 10, 30, 10, 30, 10, 30, 10;
+  }
+  100% {
+    stroke-dasharray: 0, 580, 0, 0, 0, 0, 0, 0, 0;
+  }
+}
+</style><style>
+.react-spinner-loader-svg svg {
+  transform-origin: 50% 65%;
+}
+
+.react-spinner-loader-svg svg polygon {
+  stroke-dasharray: 17;
+  animation: dash 2.5s cubic-bezier(0.35, 0.04, 0.63, 0.95) infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 136;
+  }
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style><style>
+</style><style>.sc-emoji-picker {
+  overflow: auto;
+  width: 100%;
+  max-height: calc(100% - 40px);
+  box-sizing: border-box;
+  padding: 15px;
+}
+
+.sc-emoji-picker--category {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.sc-emoji-picker--category-title {
+  min-width: 100%;
+  color: #b8c3ca;
+  font-weight: 200;
+  font-size: 13px;
+  margin: 5px;
+  letter-spacing: 1px;
+}
+
+.sc-emoji-picker--emoji {
+  margin: 5px;
+  width: 30px;
+  line-height: 30px;
+  text-align: center;
+  cursor: pointer;
+  vertical-align: middle;
+  font-size: 28px;
+  transition: transform 60ms ease-out;
+  transition-delay: 60ms;
+}
+
+.sc-emoji-picker--emoji:hover {
+  transform: scale(1.4);
+}</style><style>.sc-chat-window {
+  width: 370px;
+  height: calc(100% - 120px);
+  max-height: 590px;
+  position: fixed;
+  right: 25px;
+  bottom: 100px;
+  box-sizing: border-box;
+  box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease-in-out;
+  border-radius: 10px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.sc-chat-window.closed {
+  opacity: 0;
+  visibility: hidden;
+  bottom: 90px;
+}
+
+.sc-message-list {
+  height: 80%;
+  overflow-y: auto;
+  background-color: white;
+  background-size: 100%;
+  padding: 40px 0px;
+}
+
+.sc-message--me {
+  text-align: right;
+}
+.sc-message--them {
+  text-align: left;
+}
+
+@media (max-width: 450px) {
+  .sc-chat-window {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 0px;
+  }
+  .sc-chat-window {
+    transition: 0.1s ease-in-out;
+  }
+  .sc-chat-window.closed {
+    bottom: 0px;
+  }
+}
+</style><style>.sc-launcher {
+  width: 60px;
+  height: 60px;
+  background-color: #4e8cff;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  border-radius: 50%;
+  box-shadow: none;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.sc-launcher:before {
+  content: '';
+  position: relative;
+  display: block;
+  width: 60px;
+  height: 60px;  
+  border-radius: 50%;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.sc-launcher .sc-open-icon,
+.sc-launcher .sc-closed-icon {
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
+}
+
+.sc-launcher .sc-closed-icon {
+  transition: opacity 100ms ease-in-out, transform 100ms ease-in-out;
+  width: 60px;
+  height: 60px;
+}
+
+.sc-launcher .sc-open-icon {
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+}
+
+.sc-launcher.opened .sc-open-icon {
+  transform: rotate(-90deg);
+  opacity: 1;
+}
+
+.sc-launcher.opened .sc-closed-icon {
+  transform: rotate(-90deg);
+  opacity: 0;
+}
+
+.sc-launcher.opened:before {
+  box-shadow: 0px 0px 400px 250px rgba(148, 149, 150, 0.2);
+}
+
+.sc-launcher:hover {
+  box-shadow: 0 0px 27px 1.5px rgba(0,0,0,0.2);
+}
+
+.sc-new-messages-count {
+  position: absolute;
+  top: -3px;
+  left: 41px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 50%;
+	width: 22px;
+  height: 22px;
+  background: #ff4646;
+  color: white;
+  text-align: center;
+  margin: auto;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: -1px 1px 2px rgba(0, 0, 0, 0.3);
+}</style><style>.sc-header {
+  background: #4e8cff;
+  min-height: 75px;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  color: white;
+  padding: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.sc-header--img {
+  border-radius: 50%;
+  align-self: center;
+  padding: 10px;
+}
+
+.sc-header--team-name {
+  align-self: center;
+  padding: 10px;
+  flex: 1 1;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  border-radius: 5px;
+}
+
+.sc-header--close-button {
+  width: 40px;
+  align-self: center;
+  height: 40px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.sc-header--close-button:hover {
+  background: #4882ed;
+}
+
+.sc-header--close-button img {
+  width: 100%;
+  height: 100%;
+  padding: 13px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 450px) {
+  .sc-header {
+    border-radius: 0px;
+  }
+}</style><style>.sc-message {
+  width: 300px;
+  margin: auto;
+  padding-bottom: 10px;
+  display: flex;
+}
+
+.sc-message--content {
+  width: 100%;
+  display: flex;
+}
+
+.sc-message--content.sent {
+  justify-content: flex-end;
+}
+
+.sc-message--content.sent .sc-message--avatar {
+  display: none;
+}
+
+.sc-message--avatar {
+  background-image: url(https://d13yacurqjgara.cloudfront.net/assets/avatar-default-aa2eab7684294781f93bc99ad394a0eb3249c5768c21390163c9f55ea8ef83a4.gif);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center;
+  min-width: 30px;
+  min-height: 30px;
+  border-radius: 50%;
+  align-self: center;
+  margin-right: 15px;
+}
+
+.sc-message--text {
+  padding: 17px 20px;
+  border-radius: 6px;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  -webkit-font-smoothing: subpixel-antialiased;
+  word-wrap: break-word;
+  width: calc(100% - 90px);
+}
+
+.sc-message--content.sent .sc-message--text {
+  color: white;
+  background-color: #4e8cff;
+  max-width: calc(100% - 120px);
+  word-wrap: break-word;
+}
+
+.sc-message--content.received .sc-message--text {
+  color: #263238;
+  background-color: #f4f7f9;
+  margin-right: 40px;
+}
+
+.sc-message--emoji {
+  font-size: 40px;
+}
+
+.sc-message--file {
+  background: white;
+  border: solid 1px #CCCDD1;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sc-message--file p {
+  margin: 0px 0px 0px 10px;
+  color: rgba(86, 88, 103, 0.6);
+}
+
+.sc-message--file .sc-user-input--file-icon:hover path {
+  fill: rgba(86, 88, 103, 0.3);
+}
+
+@media (max-width: 450px) {
+  .sc-message {
+    width: 80%;
+  }
+}</style><style>.sc-user-input {
+  min-height: 55px;
+  margin: 0px;
+  position: relative;
+  bottom: 0;
+  display: flex;
+  background-color: #f4f7f9;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: background-color .2s ease,box-shadow .2s ease;
+}
+
+
+.sc-user-input--text {
+  width: 300px;
+  resize: none;
+  border: none;
+  outline: none;
+  border-bottom-left-radius: 10px;
+  box-sizing: border-box;
+  padding: 18px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.33;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: #565867;
+  -webkit-font-smoothing: antialiased;
+  max-height: 200px;
+  overflow: scroll;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sc-user-input--text:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color: rgba(86, 88, 103, 0.3);
+  outline: none;
+}
+
+.sc-user-input--buttons {
+  width: 100px;
+  position: absolute;
+  right: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sc-user-input--button:first-of-type {
+  width: 40px;
+}
+
+.sc-user-input--button {
+  width: 30px;
+  height: 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sc-user-input--button button {
+  cursor: pointer;
+}
+
+.sc-user-input--buttons input[type="file"] {
+  display: none;
+}
+
+.sc-user-input--picker-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.sc-user-input.active {
+  box-shadow: none;
+  background-color: white;
+  box-shadow: 0px -5px 20px 0px rgba(150, 165, 190, 0.2);
+}
+
+.sc-user-input--file-icon,
+.sc-user-input--send-icon {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  align-self: center;
+  outline: none;
+}
+
+.sc-user-input--file-icon path,
+.sc-user-input--send-icon path {
+  fill: rgba(86, 88, 103, 0.3);
+}
+
+.sc-user-input--file-icon:hover path,
+.sc-user-input--send-icon:hover path {
+  fill: rgba(86, 88, 103, 1);
+}
+
+.sc-user-input--emoji-icon-wrapper,
+.sc-user-input--send-icon-wrapper,
+.sc-user-input--file-icon-wrapper {
+  background: none;
+  border: none;
+  padding: 2px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sc-user-input--send-icon-wrapper,
+.sc-user-input--file-icon-wrapper {
+  flex-direction: row;
+}
+
+.sc-user-input--emoji-icon-wrapper:focus {
+  outline: none;
+}
+
+.sc-user-input--emoji-icon {
+  height: 18px;
+  cursor: pointer;
+  align-self: center;
+}
+
+.sc-user-input--emoji-icon path, .sc-user-input--emoji-icon circle {
+  fill: rgba(86, 88, 103, 0.3);
+}
+
+.sc-user-input--emoji-icon-wrapper:focus .sc-user-input--emoji-icon path,
+.sc-user-input--emoji-icon-wrapper:focus .sc-user-input--emoji-icon circle,
+.sc-user-input--emoji-icon.active path,
+.sc-user-input--emoji-icon.active circle,
+.sc-user-input--emoji-icon:hover path,
+.sc-user-input--emoji-icon:hover circle {
+  fill: rgba(86, 88, 103, 1);
+}
+</style><style>.sc-popup-window {
+  position: relative;
+  width: 150px;
+}
+
+.sc-popup-window--cointainer {
+  position: absolute;
+  bottom: 20px;
+  right: 100px;
+  width: 330px;
+  max-height: 260px;
+  height: 260px;
+  box-shadow: 0px 7px 40px 2px rgba(148, 149, 150, 0.3);
+  background: white;
+  border-radius: 10px;
+  outline: none;
+  transition: 0.2s ease-in-out;
+  z-index: 1;
+  padding: 0px 5px 5px 5px;
+  box-sizing: border-box;
+}
+
+.sc-popup-window--cointainer.closed {
+  opacity: 0;
+  visibility: hidden;
+  bottom: 14px;
+}
+
+.sc-popup-window--cointainer:after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: white;
+  position: absolute;
+  z-index: -1;
+  bottom: -6px;
+  right: 28px;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.sc-popup-window--search {
+  width: 290px;
+  box-sizing: border-box;
+  margin: auto;
+  display: block;
+  border-width: 0px 0px 1px 0px;
+  color: #565867;
+  padding-left: 25px;
+  height: 40px;
+  font-size: 14px;
+  background-image: url(https://js.intercomcdn.com/images/search@2x.32fca88e.png);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: 0 12px;
+  outline: none;
+}
+
+.sc-popup-window--search::placeholder {
+  color: #C1C7CD;
+}</style></head>
+  <body class="keyboard-focused">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"><div class="App"><nav class="nav-wrapper grey darken-3"><div class="container"><a class="brand-logo brand-logo center" href="http://localhost:3000/">Planning Poker</a></div></nav><div class="container"><form class="white"><h5 class="grey-text text-darken-3">Create User</h5><div class="input-field"><i class="material-icons prefix active">account_circle</i><input type="text" id="name" class="validate valid"><label for="name" class="active">Username</label></div><div class="input-field"><button class="btn pink lighten-1 z-depth-0">Create User</button></div></form></div></div></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  <script src="./d_files/bundle.js"></script><script src="./d_files/0.chunk.js"></script><script src="./d_files/main.chunk.js"></script><script src="./d_files/main.459865657734a1d892c4.hot-update.js"></script>
+
+</body></html>

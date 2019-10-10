@@ -16,9 +16,8 @@ class CreateUser extends Component {
 	}
 	handleSubmit = (e) => {
 		e.preventDefault();
-		this.props.createUser(this.state);
-		console.log("USER -> ", this.props)
-		// this.props.history.push('/enterRoom');
+		if(!this.state.name) alert("Enter valid username.");
+		else this.props.createUser(this.state);
 	}
 	render() {
 		if(this.props.user && this.props.user.id && this.props.location && this.props.location.state && this.props.location.state.redirectRoom){
@@ -35,8 +34,10 @@ class CreateUser extends Component {
 			<form className="white" onSubmit={this.handleSubmit}>
 			<h5 className="grey-text text-darken-3">Create User</h5>
 			<div className="input-field">
+				
+				<i className="material-icons prefix">account_circle</i>
+				<input type="text" id='name' className="validate" onChange={this.handleChange} />
 				<label htmlFor="name">Username</label>
-				<input type="text" id='name' onChange={this.handleChange} />
 			</div>
 			<div className="input-field">
 				<button className="btn pink lighten-1 z-depth-0">Create User</button>
