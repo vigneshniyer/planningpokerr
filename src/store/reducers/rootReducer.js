@@ -13,10 +13,14 @@ const appReducer = combineReducers({
  
   const rootReducer = (state, action) => {
       
-  if (action.type === 'CLEARSTORE') {
-    
-    state = undefined
-  } 
+  // if (action.type === 'LEAVE_ROOM') {
+  //   state = undefined;
+  //   state = {
+  //     user:{
+  //       clickedExit: true
+  //     }
+  //   }
+  // } 
    return appReducer(state, action)
  }
 

@@ -4,8 +4,10 @@ const initState = {
 
 const roomReducer = (state = initState, action) => {
     switch(action.type) {
-        case 'CREATE_ROOM':
+        case 'CREATE_ROOM':{
+            console.log('IN ROOM REDUCER ')
             return {'id': action.room.id};
+        }
         case 'CREATE_ROOM_ERROR':
             return state;
 
@@ -13,10 +15,9 @@ const roomReducer = (state = initState, action) => {
             return {'id': action.room.id};
         case 'JOIN_ROOM_ERROR':
             return { ...state, invalidRoom: true };
-
-        case 'LEAVE_ROOM':
-            return { ...state, id: '' };
-
+        
+        case 'EXIT_ROOM':
+            return {...state, id:null}
         case 'LEAVE_ROOM_ERROR':
             return state;
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { compose } from 'redux';
 import { createRoom, joinRoom } from '../../store/actions/roomActions';
-import Dropzone from 'react-dropzone'
+import CreateRoom from './CreateRoom';
 import M from 'materialize-css';
+import JoinRoom from './JoinRoom';
 
 class EnterRoom extends Component {
 
@@ -28,53 +28,11 @@ class EnterRoom extends Component {
 		})
 	}
 
-	handleCreateSubmit = (e) => {
-		e.preventDefault();
-		if(this.state && this.state.name)
-			this.props.createRoom(this.state);
-		else
-			alert("Enter a Valid Room Name! ");
-
-	}
-
 	handleJoinSubmit = (e) => {
 		e.preventDefault();
 		this.props.joinRoom(this.state);
 	}
 
-	handleFileDrop = (acceptedFiles) =>{
-		if (acceptedFiles.length === 1) {
-			let file = acceptedFiles[0];
-			if(file.type == 'text/rtf' || file.type == 'text/plain'){
-				const reader = new FileReader()
-				reader.onabort = () => alert('File reading was aborted')
-				reader.onerror = () => alert('File reading has failed')
-				reader.onload = () => {
-					const fileContents = reader.result
-					let userStories = fileContents.split('\n').filter(story =>{
-						return story.length>0
-					})
-					
-					this.setState({...this.state, stories: userStories})
-					let options = {
-						displayLength: 2500,
-						classes: 'rounded',
-						html: 'User Stories Loaded'
-					}
-					M.toast(options)
-				  
-				}
-				acceptedFiles.forEach(file => reader.readAsBinaryString(file))
-				
-			}
-			else {
-				alert("Choose a valid txt/rtf file!");
-			}
-		  } else { 
-			  alert("Choose 1 text file!");
-		  }
-		
-	}
 	render() {
 		const { room, user } = this.props;
 		
@@ -90,8 +48,9 @@ class EnterRoom extends Component {
 			}
 			M.toast(options)
 		}
-
+		console.log("Roomie props: ", this.props);
 		if (room && room.id) {
+			console.log("Enter room disappearing...");
 			return <Redirect to= {'/room/'+room.id} /> 
 		}
 		
@@ -107,54 +66,14 @@ class EnterRoom extends Component {
 						</li>
 					</ul>
 
-					<div id="create-room-tab" >
-						<form className="white mt-0" onSubmit={this.handleCreateSubmit}>
-							<h5 className="grey-text text-darken-3">Create Room</h5>
-							<div className="input-field">
-								<i className="material-icons prefix">account_balance</i>
-								<input type="text" id='name' onChange={this.handleChange} />
-								<label htmlFor="name">Room Name</label>
-							</div>
-							<div className="upload-border center-align cursor-pointer">
-								
-								<Dropzone onDrop={acceptedFiles => this.handleFileDrop(acceptedFiles)}>
-								{({getRootProps, getInputProps}) => (
-									<section>
-									<div {...getRootProps()}>
-										<input {...getInputProps()} />
-										<p>To import user stories automatically, drag and drop a .txt file containing user stories separated by line</p>
-										<div>
-										<i className="large material-icons">cloud_upload</i>
-										</div>
-									</div>
-									</section>
-								)}
-								</Dropzone>
-								
-							</div>
-							
-							<div className="input-field">
-								<button className="btn pink lighten-1 z-depth-0">Create Room</button>
-							</div>
-						</form>
-					</div>
-						
-					<div id="join-room-tab" >
-						<form className="white mt-0" onSubmit={this.handleJoinSubmit}>
-							<h5 className="grey-text text-darken-3">Join Room</h5>
-							<div className="input-field">
-								
-								<i className="material-icons prefix">fingerprint</i>
-								<input type="text" id='id' onChange={this.handleChange} />
-								<label htmlFor="id">Room ID</label>
-							</div>
-							<div className="input-field">
-								<button className="btn pink lighten-1 z-depth-0">Join Room</button>
-							</div>
-						</form>
-					</div>
-				</div>
+					<CreateRoom 
+						createRoom= {this.props.createRoom}
+					/>
 
+					<JoinRoom
+						joinRoom = {this.props.joinRoom}
+					/>
+				</div>	
 			</div>
 		)
 	}

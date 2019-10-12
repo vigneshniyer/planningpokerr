@@ -127,6 +127,7 @@ export const toggleRound = (toggle) => {
                         return total + voteObj.vote;
                 }, 0);
                 score = score / room.currentVotes.length;
+                score = Math.round(score);
             }
             
             let currentEndTime = new Date().getTime();
@@ -214,9 +215,8 @@ export const leaveRoom = (room) => {
             
         ])
         .then(
-            // dispatch({ type:'LEAVE_ROOM', room:room }),
-            // dispatch({ type:'CLEAR_USER', room:room }),
-            dispatch({ type:'CLEARSTORE', room:room }),
+            dispatch({ type:'EXIT_USER', room:room }),
+            dispatch({ type:'EXIT_ROOM', room:room }),
         )
         .catch((err) => {
             dispatch({ type: 'LEAVE_ROOM_ERROR', err })

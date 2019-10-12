@@ -3,10 +3,13 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { createUser } from '../../store/actions/userActions';
 import { joinRoom } from '../../store/actions/roomActions';
+import SweetAlert from 'sweetalert2-react';
+import GuideCard from '../layout/GuideCard';
 
 class CreateUser extends Component {
 	state = {
-		name: ''
+		name: '',
+		showAlert:false
 	}
 
 	handleChange = (e) => {
@@ -16,11 +19,15 @@ class CreateUser extends Component {
 	}
 	handleSubmit = (e) => {
 		e.preventDefault();
-		if(!this.state.name) alert("Enter valid username.");
+		if(!this.state.name) {
+			this.setState({showAlert:true});
+		}
 		else this.props.createUser(this.state);
 	}
 	render() {
+		console.log("Create props", this.props);
 		if(this.props.user && this.props.user.id && this.props.location && this.props.location.state && this.props.location.state.redirectRoom){
+			console.log("Truee123");
 			let roomId = this.props.location.state.redirectRoom.split('/')[2];
 			this.props.joinRoom({'id':roomId});
 			return <Redirect to= {this.props.location.state.redirectRoom} />
@@ -39,9 +46,15 @@ class CreateUser extends Component {
 				<label htmlFor="name">Username</label>
 			</div>
 			<div className="input-field">
-				<button className="btn pink lighten-1 z-depth-0">Create User</button>
+				<button className="btn blue z-depth-0">Create User</button>
 			</div>
 			</form>
+			<SweetAlert
+				show={this.state.showAlert}
+				text="Enter a valid username."
+				onConfirm={() => this.setState({ showAlert: false })}
+			/>
+
 		</div>
 		)
 	}

@@ -1,16 +1,16 @@
 const initState = {
-    loggedIn: false
+    clickedExit: false
 }
 
 const userReducer = (state = initState, action) => {
     switch(action.type) {
         case 'CREATE_USER':
                 let user  = action.userDetails; 
-                return { ...state, ...user, loggedIn:true };
+                return { ...state, ...user, clickedExit: false};
         case 'CREATE_USER_ERROR':
             return state;
-        case 'CLEAR_USER':
-            return {...state, id:'', name:''}
+        case 'EXIT_USER': 
+            return {...state, clickedExit:true, id:null, name:null}
         default:
             return state;
     }

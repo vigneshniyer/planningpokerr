@@ -81,6 +81,10 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   margin-left: 10px;
 }
 
+.ml-20 {
+  margin-left: 20px;
+}
+
 .round-results-card {
   height: 400px;
   overflow-y:auto;
@@ -120,10 +124,26 @@ table {
 }
 
 .user-story-list {
-    height: 250px;
+    height: 350px;
 	  overflow-y: auto;
 }
 
 #currentStory {
   min-height: 70px;
+}
+
+.modal {
+  color: black;
+}
+
+.collection .collection-item.active {
+  background-color: rgba(92, 147, 250, 0.685);
+  color: #eafaf9;
+}
+
+.collection a.collection-item {
+  display: block;
+  -webkit-transition: .25s;
+  transition: .25s;
+  color:black;
 }
