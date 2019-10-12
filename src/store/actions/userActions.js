@@ -9,7 +9,6 @@ export const createUser = (name) => {
             }
         )
         .then(function(user) {
-            // console.log("User -->", user);
             let userDetails = {
                 id:user.id,
                 name: name.name

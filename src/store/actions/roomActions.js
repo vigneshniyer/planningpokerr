@@ -1,10 +1,7 @@
-import { join } from "path";
 
 export const createRoom = (room) => {
     return (dispatch, getState, { getFirebase, getFirestore } ) => {
         const fireStore = getFirestore();
-        // const userId = getState().firebase.auth.uid;
-        const profile = getState().firebase.profile;
         let joinMessage = {
             author: 'them',
             type: 'text',
@@ -36,7 +33,6 @@ export const createRoom = (room) => {
             }
         )
         .then((room) => {
-            console.log("THe room created is :", room);
             dispatch({ type:'CREATE_ROOM', room:room })
         })
         .catch((err) => {
@@ -105,7 +101,6 @@ export const updateCurrentStory = (data) => {
 export const toggleRound = (toggle) => {
     return (dispatch, getState, { getFirebase, getFirestore } ) => {
         const fireStore = getFirestore();
-        const fireBase = getFirebase();
 
         if(toggle.activeRound) {
 
@@ -205,7 +200,7 @@ export const leaveRoom = (room) => {
             }
         };
         Promise.all([
-            room.users.length == 1 && room.users[0].id == userId ? 
+            room.users.length === 1 && room.users[0].id === userId ? 
             // if last user, delete the entire room
             fireStore.collection('rooms').doc(room.id).delete() 
             :
@@ -236,7 +231,6 @@ export const sendMessage = (data) => {
     return (dispatch, getState, { getFirebase, getFirestore } ) => {
         const fireStore = getFirestore();
         let room = getState().firestore.ordered.rooms[0]; 
-        console.log("Send : ", data);
         let messageList=[];
         if(room && room.messageList) 
             messageList = [...room.messageList, data];
@@ -258,32 +252,3 @@ export const sendMessage = (data) => {
     }
 };
 
-// export const readMessage = (data) => {
-//     return (dispatch, getState, { getFirebase, getFirestore } ) => {
-//         const fireStore = getFirestore();
-//         let room = getState().firestore.ordered.rooms[0]; 
-//         let users = [];
-//         if(room && room.users){
-//             users = [...room.users];
-//         users.map((user) => {
-//             if(user.id == data.id) {
-//                 if(!user.isOpen)
-//                     user.newMessagesCount = 0;
-//                 user.isOpen = !user.isOpen;
-//             }
-//         })
-        
-//         console.log('Reading users are ', room.users);
-//         fireStore.collection('rooms').doc(room.id).update({
-//             "users": users
-//         })
-//         .then(() => {
-//             dispatch({ type:'UPDATE_TEST', data: data })
-//         })
-//         .catch((err) => {
-//             dispatch({ type: 'UPDATE_TEST_ERROR', err })
-//         })
-
-//     }
-//     };
-// }

@@ -3,14 +3,11 @@ import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { compose } from 'redux';
 import { createRoom, joinRoom } from '../../store/actions/roomActions';
-// import { firestoreConnect } from 'react-redux-firebase';
 import Dropzone from 'react-dropzone'
 import M from 'materialize-css';
 
 class EnterRoom extends Component {
-	// state = {
-	// 	stories,
-	// }
+
 
 	componentDidMount() {
 		let options = {
@@ -26,10 +23,8 @@ class EnterRoom extends Component {
 	}
 
 	handleChange = (e) => {
-		// console.log(">", this.props);
 		this.setState({
 			[e.target.id]: e.target.value,
-			// room: { ...this.props.room, invalidRoom: false }
 		})
 	}
 
@@ -52,16 +47,14 @@ class EnterRoom extends Component {
 			let file = acceptedFiles[0];
 			if(file.type == 'text/rtf' || file.type == 'text/plain'){
 				const reader = new FileReader()
-				reader.onabort = () => console.log('file reading was aborted')
-				reader.onerror = () => console.log('file reading has failed')
+				reader.onabort = () => alert('File reading was aborted')
+				reader.onerror = () => alert('File reading has failed')
 				reader.onload = () => {
 					const fileContents = reader.result
 					let userStories = fileContents.split('\n').filter(story =>{
 						return story.length>0
 					})
-					userStories.forEach(story => {
-						console.log("Story is : ", story);
-					})
+					
 					this.setState({...this.state, stories: userStories})
 					let options = {
 						displayLength: 2500,
@@ -69,7 +62,6 @@ class EnterRoom extends Component {
 						html: 'User Stories Loaded'
 					}
 					M.toast(options)
-					console.log(this.state);
 				  
 				}
 				acceptedFiles.forEach(file => reader.readAsBinaryString(file))
@@ -84,12 +76,11 @@ class EnterRoom extends Component {
 		
 	}
 	render() {
-		const { room, auth, user, stories } = this.props;
+		const { room, user } = this.props;
 		
 		if (user && !user.id) {
 			return <Redirect to="/createUser" />
 		}
-		// return <Redirect to="/createUser" />
 
 		if(this.props.invalidRoom) {
 			let options = {
@@ -105,74 +96,71 @@ class EnterRoom extends Component {
 		}
 		
 		return (
+			<div className="row">
+				<div className="container mt-60">
+					<ul ref={ Tabs => { this.Tabs = Tabs} } id="tabs-swipe-demo" className="tabs tabs-fixed-width tab-demo z-depth-1" >
+						<li className="tab">
+							<a href="#create-room-tab">Create Room</a>
+						</li>
+						<li className="tab">
+							<a href="#join-room-tab">Join Room</a>
+						</li>
+					</ul>
 
-				<div className="row">
-					<div className="container mt-60">
-						<ul ref={ Tabs => { this.Tabs = Tabs} } id="tabs-swipe-demo" className="tabs tabs-fixed-width tab-demo z-depth-1" >
-							<li className="tab">
-								<a href="#create-room-tab">Create Room</a>
-							</li>
-							<li className="tab">
-								<a href="#join-room-tab">Join Room</a>
-							</li>
-						</ul>
-
-						<div id="create-room-tab" >
-							<form className="white mt-0" onSubmit={this.handleCreateSubmit}>
-								<h5 className="grey-text text-darken-3">Create Room</h5>
-								<div className="input-field">
-									<i className="material-icons prefix">account_balance</i>
-									<input type="text" id='name' onChange={this.handleChange} />
-									<label htmlFor="name">Room Name</label>
-								</div>
-								<div className="upload-border center-align cursor-pointer">
-									
-									<Dropzone onDrop={acceptedFiles => this.handleFileDrop(acceptedFiles)}>
-									{({getRootProps, getInputProps}) => (
-										<section>
-										<div {...getRootProps()}>
-											<input {...getInputProps()} />
-											<p>To import user stories automatically, drag and drop a .txt file containing user stories separated by line</p>
-											<div>
-											<i className="large material-icons">cloud_upload</i>
-											</div>
-										</div>
-										</section>
-									)}
-									</Dropzone>
-									
-								</div>
+					<div id="create-room-tab" >
+						<form className="white mt-0" onSubmit={this.handleCreateSubmit}>
+							<h5 className="grey-text text-darken-3">Create Room</h5>
+							<div className="input-field">
+								<i className="material-icons prefix">account_balance</i>
+								<input type="text" id='name' onChange={this.handleChange} />
+								<label htmlFor="name">Room Name</label>
+							</div>
+							<div className="upload-border center-align cursor-pointer">
 								
-								<div className="input-field">
-									<button className="btn pink lighten-1 z-depth-0">Create Room</button>
-								</div>
-							</form>
-						</div>
+								<Dropzone onDrop={acceptedFiles => this.handleFileDrop(acceptedFiles)}>
+								{({getRootProps, getInputProps}) => (
+									<section>
+									<div {...getRootProps()}>
+										<input {...getInputProps()} />
+										<p>To import user stories automatically, drag and drop a .txt file containing user stories separated by line</p>
+										<div>
+										<i className="large material-icons">cloud_upload</i>
+										</div>
+									</div>
+									</section>
+								)}
+								</Dropzone>
+								
+							</div>
 							
-						<div id="join-room-tab" >
-							<form className="white mt-0" onSubmit={this.handleJoinSubmit}>
-								<h5 className="grey-text text-darken-3">Join Room</h5>
-								<div className="input-field">
-									
-									<i className="material-icons prefix">fingerprint</i>
-									<input type="text" id='id' onChange={this.handleChange} />
-									<label htmlFor="id">Room ID</label>
-								</div>
-								<div className="input-field">
-									<button className="btn pink lighten-1 z-depth-0">Join Room</button>
-								</div>
-							</form>
-						</div>
+							<div className="input-field">
+								<button className="btn pink lighten-1 z-depth-0">Create Room</button>
+							</div>
+						</form>
 					</div>
-
+						
+					<div id="join-room-tab" >
+						<form className="white mt-0" onSubmit={this.handleJoinSubmit}>
+							<h5 className="grey-text text-darken-3">Join Room</h5>
+							<div className="input-field">
+								
+								<i className="material-icons prefix">fingerprint</i>
+								<input type="text" id='id' onChange={this.handleChange} />
+								<label htmlFor="id">Room ID</label>
+							</div>
+							<div className="input-field">
+								<button className="btn pink lighten-1 z-depth-0">Join Room</button>
+							</div>
+						</form>
+					</div>
 				</div>
+
+			</div>
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
-	if(state)
-		console.log("state is -> ", state)
 	return {
 		room: state.room,
 		user: state.user,

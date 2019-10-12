@@ -7,7 +7,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { updateCurrentStory, toggleRound, castVote, leaveRoom, sendMessage} from '../../store/actions/roomActions'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import 'react-sharingbuttons/dist/main.css';
-import { Email, Facebook, Twitter } from 'react-sharingbuttons';
+import { Email, Facebook } from 'react-sharingbuttons';
 import M from 'materialize-css';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from 'react-loader-spinner';
@@ -20,7 +20,7 @@ import 'jspdf-autotable';
 class Room extends Component {
 
     state = {
-        // chosen: []
+        
     }
 
     constructor(props) {
@@ -31,10 +31,10 @@ class Room extends Component {
     }
 
     _onMessageWasSent(message) {
-        if(message.type == 'text'){
+        if(message.type === 'text'){
             message.data.text= this.props.user.name + ' ➡️ ' + message.data.text;
         }
-        else if(message.type == 'emoji') {
+        else if(message.type === 'emoji') {
             message.type = "text"
             message.data.text = this.props.user.name + ' ➡️ ' + message.data.emoji
         }
@@ -66,7 +66,6 @@ class Room extends Component {
             doc.setFontSize(18);
             doc.setTextColor(40);
             doc.setFontStyle('normal');
-            //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
             doc.text("Planning Poker - " + today, data.settings.margin.left, 50);
         };
 
@@ -87,16 +86,12 @@ class Room extends Component {
         window.addEventListener('unload', this.keepOnPage);
         window.addEventListener('pagehide', this.keepOnPage);
         var elems = document.querySelectorAll('.modal');
-        var instances = M.Modal.init(elems);
+        M.Modal.init(elems);
         var ddelems = document.querySelectorAll('.dropdown-trigger');
-        var ddinstances = M.Dropdown.init(ddelems);
+        M.Dropdown.init(ddelems);
         var sideElems = document.querySelectorAll('.sidenav');
-        var sideInstances = M.Sidenav.init(sideElems);
-        // setTimeout(function() { //Start the timer
-        //     this.setState({render: true}) //After 1 second, set render to true
-        // }.bind(this), 150)
+        M.Sidenav.init(sideElems);
     }
-    //150
     
     componentWillUnmount() {
         window.removeEventListener('beforeunload', this.keepOnPage);
@@ -160,38 +155,22 @@ class Room extends Component {
 
 	render() {
         
+        
 
         const votes = [1, 2, 3, 5, 8, 13, 20, 40, 100];
 
-        const { room, currentStory, currentScore, activeRound, roundsHistory, messageList, userList, localRoom, leaveRoom, user, stories } = this.props;
-
-        // if(localRoom && leaveRoom) 
-        // console.log("Leaving...")
+        const { room, currentStory, currentScore, activeRound, roundsHistory, messageList, localRoom, stories } = this.props;
         
-        let currentUserStatus = userList ? userList.filter((user)=>{
-            return user.id == this.props.user.id;
-        }) : {};
-
-        let isOpen = currentUserStatus ? currentUserStatus.isOpen : false;
-
-        let newMessagesCount = currentUserStatus ? currentUserStatus.newMessagesCount : 0;
-
-        // if(roundsHistory && roundsHistory.length>1)
-        //     roundsHistory.sort((a,b)=>{
-        //         return b.time - a.time;
-        // })
-        
-            const showRoundResult = currentScore 
-            ? 
-            <span className="right">{ currentScore } points</span>
-            : 
-            '';
+        const showRoundResult = currentScore 
+        ? 
+        <span className="right">{ currentScore } points</span>
+        : 
+        '';
 
         if (localRoom && !localRoom.id) return <Redirect to={{
                 pathname: '/enterRoom',
             }} 
         />
-        console.log("-->", this.props)
         if (this.props.user && !this.props.user.id) return <Redirect to={{
                 pathname: '/createUser',
                 state: { 
@@ -211,34 +190,36 @@ class Room extends Component {
                     vote < 20 ?
                         <img 
                             onClick={()=>this.castVote(vote)} 
-                            className={ (currentUserVote && vote == currentUserVote.vote) 
+                            className={ (currentUserVote && vote === currentUserVote.vote) 
                             ? "vote-selected mr-10 cursor-pointer" 
                             : "mr-10 cursor-pointer"} 
                             width="13%" height="13%" 
                             src={"/img/"+vote+".png"} 
                             key={vote}
+                            alt={'Vote '+vote}
                         />
                     :
                         <img 
                             onClick={()=>this.castVote(vote)} 
-                            className={ (currentUserVote && vote == currentUserVote.vote) 
+                            className={ (currentUserVote && vote === currentUserVote.vote) 
                             ? 
                             "vote-selected mr-20 cursor-pointer" 
                             : "mr-20 cursor-pointer"} 
                             width="18%" height="18%" 
                             src={"/img/"+vote+".png"} 
                             key={vote}
+                            alt={'Vote '+vote}
                         /> 
                 );
         })
 
         const showUserStories = stories.map((story) => {
-            return <a onClick={()=>this.assignStory(story)} key={story} href="#!" className={ currentStory && currentStory == story? "collection-item active": "collection-item"}>{story}</a>
+            return <a onClick={()=>this.assignStory(story)} key={story} href="#!" className={ currentStory && currentStory === story? "collection-item active": "collection-item"}>{story}</a>
         })
         
         
         let renderContainer = false //By default don't render anything
-        if(this.state.render) { //If this.state.render == true, which is set to true by the timer.
+        if(this.state.render) { 
             renderContainer = <div>
             <div className="container">
 
@@ -246,17 +227,16 @@ class Room extends Component {
                 <h3>
                     {room ? room[0].name : ""}
                     <a className="btn grey right hide-on-small-only" onClick={()=>{
-                        console.log('BEFORE :', this.props)
                         {/* this.setState(user={}); */}
                         this.props.leaveRoom(this.props.roomTest)
-                        console.log('AFTER', this.props)
+                    
                         }}>
                         <i className="material-icons right">exit_to_app</i>
                         Exit
                     </a>
-                    <a className="modal-trigger btn green right mr-10 hide-on-small-only" href="#share-modal">
+                    <a className="modal-trigger btn green right mr-10 hide-on-small-only" href="#share-modal" >
                         <i className="material-icons right">share</i>
-                        Share
+                        Invite Team
                     </a>
                     <div className="hide-on-med-and-up right lighten-1">
                     <a className='dropdown-trigger btn btn-floating pink' href='#' data-target='dropdown1'><i className="material-icons right">menu</i></a>
@@ -382,7 +362,6 @@ class Room extends Component {
                                     let userVoteObj = room[0].currentVotes.find(obj => {
                                         return obj.userId === user.id
                                     });
-                                    let userVote = userVoteObj ? userVoteObj.vote : '?'
 
                                     let fileName = userVoteObj && userVoteObj.vote && !activeRound ? '/img/'+userVoteObj.vote+'.png' : '/img/card-flipped.jpg';
 
@@ -393,11 +372,11 @@ class Room extends Component {
                                         {
                                         userVoteObj && userVoteObj.vote && !activeRound ? 
 
-                                        <img className="mr-20" width="65%" height="65%" src={fileName}></img>
+                                        <img className="mr-20" width="65%" height="65%" src={fileName} alt=""></img>
                                         
                                         : 
                                         
-                                        <img className="mr-20 card-border" width="65%" height="65%" src={fileName}></img> 
+                                        <img className="mr-20 card-border" width="65%" height="65%" src={fileName} alt=''></img> 
                                         }
 
                                             <p>
@@ -469,14 +448,13 @@ class Room extends Component {
             </div> */}
         }
         return (
-        renderContainer //Render the dom elements, or, when this.state == false, nothing.
+        renderContainer //Render the dom elements, or, when this.state === false, nothing.
         )
 
 	}
 }
 
 const mapStateToProps = (state) => {
-    console.log("Room State -> ", state);
 	return {
         room: state.firestore.ordered.rooms,
 

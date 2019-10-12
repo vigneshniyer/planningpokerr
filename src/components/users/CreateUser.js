@@ -28,7 +28,6 @@ class CreateUser extends Component {
 		else if (this.props.user && this.props.user.id) {
 			return <Redirect to= {'/enterRoom'} />
 		}
-		console.log("Props : ", this.props.location)
 		return (
 		<div className="container">
 			<form className="white" onSubmit={this.handleSubmit}>
