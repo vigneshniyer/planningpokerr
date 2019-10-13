@@ -4,7 +4,7 @@ const GuideCard = () => {
 
     return (
         <div className="collection with-header">
-            <div class="collection-header"><h4>Getting Started 🚀</h4></div>
+            <div className="collection-header"><h4>Getting Started 🚀</h4></div>
             <div className="collection-item"><h6>1️⃣ Pick a cool username. 🆒😎</h6></div>
             <div className="collection-item"><h6>2️⃣ Enter a room. 🚪</h6></div>
             <div className="collection-item"><h6>🅰️ Create a room as the moderator & invite your team to join. 🏗🏛</h6></div>

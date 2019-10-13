@@ -48,9 +48,7 @@ class EnterRoom extends Component {
 			}
 			M.toast(options)
 		}
-		console.log("Roomie props: ", this.props);
 		if (room && room.id) {
-			console.log("Enter room disappearing...");
 			return <Redirect to= {'/room/'+room.id} /> 
 		}
 		

@@ -5,7 +5,6 @@ const initState = {
 const roomReducer = (state = initState, action) => {
     switch(action.type) {
         case 'CREATE_ROOM':{
-            console.log('IN ROOM REDUCER ')
             return {'id': action.room.id};
         }
         case 'CREATE_ROOM_ERROR':

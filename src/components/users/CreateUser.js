@@ -25,9 +25,7 @@ class CreateUser extends Component {
 		else this.props.createUser(this.state);
 	}
 	render() {
-		console.log("Create props", this.props);
 		if(this.props.user && this.props.user.id && this.props.location && this.props.location.state && this.props.location.state.redirectRoom){
-			console.log("Truee123");
 			let roomId = this.props.location.state.redirectRoom.split('/')[2];
 			this.props.joinRoom({'id':roomId});
 			return <Redirect to= {this.props.location.state.redirectRoom} />
