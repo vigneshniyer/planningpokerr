@@ -5,7 +5,6 @@ export const createUser = (name) => {
             {
                 firstName: name.name,
                 lastName: name.name,
-                initials: "XY",
             }
         )
         .then(function(user) {
