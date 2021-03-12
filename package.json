@@ -5,7 +5,7 @@
   "dependencies": {
     "firebase": "^6.6.2",
     "html2canvas": "^1.0.0-rc.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jspdf-autotable": "^3.2.4",
     "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.24.0",
